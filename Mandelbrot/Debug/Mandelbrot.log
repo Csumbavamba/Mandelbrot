@@ -1,0 +1,10 @@
+﻿  main.cpp
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\task.h(13): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\task.h(18): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\main.cpp(236): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\main.cpp(236): warning C4305: '+=': truncation from 'double' to 'float'
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\main.cpp(238): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\main.cpp(238): warning C4305: '+=': truncation from 'double' to 'float'
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\main.cpp(240): warning C4305: 'initializing': truncation from 'double' to 'float'
+d:\programming\github\tech leverage\mandelbrot\mandelbrot\main.cpp(240): warning C4305: '+=': truncation from 'double' to 'float'
+  Mandelbrot.vcxproj -> D:\Programming\GitHub\Tech Leverage\Mandelbrot\Debug\Mandelbrot.exe
