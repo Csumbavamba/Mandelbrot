@@ -157,62 +157,81 @@ void Initialise()
 	ThreadPool::GetInstance()->Initialise();
 	ThreadPool::GetInstance()->Start();
 	processingDone = false;
-
-	// size_t numberOfThreads = ThreadPool::GetInstance()->GetNumberOfThreads();
 	
 	// Create every pixel based on image Size
 	for (int y = 0; y < imageHeight; ++y)
 	{
-		ProcessPackage(y);
-		// ThreadPool::GetInstance()->Submit(Task(ProcessPackage, y));
+		// ProcessPackage(y);
+		ThreadPool::GetInstance()->Submit(Task(ProcessPackage,y));
 	
 	}
-	
-	
-	
-	
-	
-	// ThreadPool::GetInstance()->Start();
-	// 
 
-
-	
 }
 
 void ProcessPackage(int y)
 {
 
+	Pixel tempPixels[imageWidth];
+	int tempPixelID = 0;
+
 	for (int x = 0; x < imageWidth; ++x)
 	{
-		CreatePixelData(x, y);
+		// CreatePixelData(x, y);
+
+		// Find the imaginary	and real values for c, corresponding to that x,y pixen in the image
+		double cReal = MapToReal(x, imageWidth, minReal, maxReal);
+		double cImaginary = MapToImaginary(y, imageHeight, minImaginary, maxImaginary);
+		// Find the number of iterations in the Mandelbrot formula using c
+		int numberToSkip = CalculateMandelbrot(cReal, cImaginary, maxIterations);
+
+		if (numberToSkip >= maxIterations)
+		{
+			tempPixels[tempPixelID].red = 0;
+			tempPixels[tempPixelID].blue = 0;
+			tempPixels[tempPixelID].green = 0;
+		}
+		else
+		{
+			tempPixels[tempPixelID].red = pixelPattern[numberToSkip].red;
+			tempPixels[tempPixelID].blue = pixelPattern[numberToSkip].blue;
+			tempPixels[tempPixelID].green = pixelPattern[numberToSkip].green;
+		}
+
+		tempPixelID++;// TODO THIS IS THE PROBLEM
+	}
+
+	// iterate through the line's pixel array
+	for (int x = 0; x < imageWidth; x++)
+	{
+		pixels[y * imageWidth + x] = tempPixels[x];
 	}
 }
 
 void CreatePixelData(int x, int y)
 {
 	
-	// Find the imaginary	and real values for c, corresponding to that x,y pixen in the image
-	double cReal = MapToReal(x, imageWidth, minReal, maxReal);
-	double cImaginary = MapToImaginary(y, imageHeight, minImaginary, maxImaginary);
-	// Find the number of iterations in the Mandelbrot formula using c
-	int numberToSkip = CalculateMandelbrot(cReal, cImaginary, maxIterations);
+	//// Find the imaginary	and real values for c, corresponding to that x,y pixen in the image
+	//double cReal = MapToReal(x, imageWidth, minReal, maxReal);
+	//double cImaginary = MapToImaginary(y, imageHeight, minImaginary, maxImaginary);
+	//// Find the number of iterations in the Mandelbrot formula using c
+	//int numberToSkip = CalculateMandelbrot(cReal, cImaginary, maxIterations);
 
-	if (numberToSkip >= maxIterations)
-	{
-		pixels[location].red = 0;
-		pixels[location].blue = 0;
-		pixels[location].green = 0;
-	}
-	else
-	{
-		pixels[location].red = pixelPattern[numberToSkip].red;
-		pixels[location].blue = pixelPattern[numberToSkip].blue;
-		pixels[location].green = pixelPattern[numberToSkip].green;
+	//if (numberToSkip >= maxIterations)
+	//{
+	//	pixels[location].red = 0;
+	//	pixels[location].blue = 0;
+	//	pixels[location].green = 0;
+	//}
+	//else
+	//{
+	//	pixels[location].red = pixelPattern[numberToSkip].red;
+	//	pixels[location].blue = pixelPattern[numberToSkip].blue;
+	//	pixels[location].green = pixelPattern[numberToSkip].green;
 
-	}
-	
-	
-	location++; // TODO THIS IS THE FUCKING PROBLEM
+	//}
+	//
+	//std::lock_guard<std::mutex> lock(mutex);
+	//location++; // TODO THIS IS THE PROBLEM
 	
 }
 
